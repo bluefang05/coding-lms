@@ -1,114 +1,210 @@
 """
-Módulo de auto-inserción de currículo en la base de datos MySQL.
+Módulo de auto-inserción de currículo en la base de datos.
+Soporta MySQL y SQLite como fallback para desarrollo.
 Permite cargar lecciones, ejercicios y rutas de aprendizaje automáticamente.
 """
 
-import mysql.connector
-from mysql.connector import Error
-from datetime import datetime
 import json
 import os
+from datetime import datetime
+
+# Intentar importar mysql.connector, si no existe usar SQLite
+try:
+    import mysql.connector
+    from mysql.connector import Error
+    MYSQL_AVAILABLE = True
+except ImportError:
+    MYSQL_AVAILABLE = False
+
+import sqlite3
 
 class CurriculumLoader:
     def __init__(self, host='localhost', database='learning_platform', 
-                 user='root', password='password', port=3306):
+                 user='root', password='password', port=3306, use_sqlite=False):
         self.host = host
         self.database = database
         self.user = user
         self.password = password
         self.port = port
+        self.use_sqlite = use_sqlite or not MYSQL_AVAILABLE
         self.conn = None
         self.cursor = None
+        
+        if self.use_sqlite:
+            print("⚠️  MySQL no disponible, usando SQLite como fallback...")
+            self.db_file = f"{database}.db"
     
     def connect(self):
-        """Conectar a la base de datos MySQL"""
-        try:
-            # Primero intentamos conectar sin especificar la base de datos
-            self.conn = mysql.connector.connect(
-                host=self.host,
-                user=self.user,
-                password=self.password,
-                port=self.port
-            )
+        """Conectar a la base de datos (MySQL o SQLite)"""
+        if self.use_sqlite:
+            # Conexión SQLite
+            self.conn = sqlite3.connect(self.db_file)
             self.cursor = self.conn.cursor()
-            
-            # Crear la base de datos si no existe
-            self.cursor.execute(f"CREATE DATABASE IF NOT EXISTS {self.database}")
-            self.cursor.execute(f"USE {self.database}")
-            
-            print(f"✓ Conectado a MySQL: {self.host}:{self.port}/{self.database}")
-        except Error as e:
-            print(f"✗ Error al conectar a MySQL: {e}")
-            raise
+            print(f"✓ Conectado a SQLite: {self.db_file}")
+        else:
+            # Conexión MySQL
+            try:
+                # Primero intentamos conectar sin especificar la base de datos
+                self.conn = mysql.connector.connect(
+                    host=self.host,
+                    user=self.user,
+                    password=self.password,
+                    port=self.port
+                )
+                self.cursor = self.conn.cursor()
+                
+                # Crear la base de datos si no existe
+                self.cursor.execute(f"CREATE DATABASE IF NOT EXISTS {self.database}")
+                self.cursor.execute(f"USE {self.database}")
+                
+                print(f"✓ Conectado a MySQL: {self.host}:{self.port}/{self.database}")
+            except Error as e:
+                print(f"✗ Error al conectar a MySQL: {e}")
+                print("⚠️  Cambiando automáticamente a SQLite...")
+                self.use_sqlite = True
+                self.db_file = f"{self.database}.db"
+                self.conn = sqlite3.connect(self.db_file)
+                self.cursor = self.conn.cursor()
+                print(f"✓ Conectado a SQLite: {self.db_file}")
     
     def create_tables(self):
         """Crear tablas si no existen"""
-        tables = [
-            """
-            CREATE TABLE IF NOT EXISTS technologies (
-                id INT AUTO_INCREMENT PRIMARY KEY,
-                name VARCHAR(100) UNIQUE NOT NULL,
-                description TEXT,
-                difficulty_level VARCHAR(50) DEFAULT 'beginner',
-                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
-            """,
-            """
-            CREATE TABLE IF NOT EXISTS modules (
-                id INT AUTO_INCREMENT PRIMARY KEY,
-                technology_id INT,
-                title VARCHAR(200) NOT NULL,
-                description TEXT,
-                order_index INT,
-                estimated_duration_minutes INT,
-                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                FOREIGN KEY (technology_id) REFERENCES technologies(id) ON DELETE CASCADE
-            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
-            """,
-            """
-            CREATE TABLE IF NOT EXISTS lessons (
-                id INT AUTO_INCREMENT PRIMARY KEY,
-                module_id INT,
-                title VARCHAR(200) NOT NULL,
-                content_type VARCHAR(50) DEFAULT 'text',
-                content_data LONGTEXT,
-                order_index INT,
-                estimated_duration_minutes INT,
-                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                FOREIGN KEY (module_id) REFERENCES modules(id) ON DELETE CASCADE
-            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
-            """,
-            """
-            CREATE TABLE IF NOT EXISTS exercises (
-                id INT AUTO_INCREMENT PRIMARY KEY,
-                lesson_id INT,
-                title VARCHAR(200) NOT NULL,
-                description TEXT,
-                difficulty VARCHAR(50) DEFAULT 'easy',
-                starter_code LONGTEXT,
-                expected_output TEXT,
-                test_cases LONGTEXT,
-                points INT DEFAULT 10,
-                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                FOREIGN KEY (lesson_id) REFERENCES lessons(id) ON DELETE CASCADE
-            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
-            """,
-            """
-            CREATE TABLE IF NOT EXISTS user_progress (
-                id INT AUTO_INCREMENT PRIMARY KEY,
-                user_id INT,
-                lesson_id INT,
-                exercise_id INT,
-                completed BOOLEAN DEFAULT FALSE,
-                score INT,
-                attempts INT DEFAULT 0,
-                last_attempt TIMESTAMP,
-                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                FOREIGN KEY (lesson_id) REFERENCES lessons(id) ON DELETE CASCADE,
-                FOREIGN KEY (exercise_id) REFERENCES exercises(id) ON DELETE CASCADE
-            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
-            """
-        ]
+        if self.use_sqlite:
+            # Tablas para SQLite
+            tables = [
+                """
+                CREATE TABLE IF NOT EXISTS technologies (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    name VARCHAR(100) UNIQUE NOT NULL,
+                    description TEXT,
+                    difficulty_level VARCHAR(50) DEFAULT 'beginner',
+                    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+                )
+                """,
+                """
+                CREATE TABLE IF NOT EXISTS modules (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    technology_id INT,
+                    title VARCHAR(200) NOT NULL,
+                    description TEXT,
+                    order_index INT,
+                    estimated_duration_minutes INT,
+                    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                    FOREIGN KEY (technology_id) REFERENCES technologies(id) ON DELETE CASCADE
+                )
+                """,
+                """
+                CREATE TABLE IF NOT EXISTS lessons (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    module_id INT,
+                    title VARCHAR(200) NOT NULL,
+                    content_type VARCHAR(50) DEFAULT 'text',
+                    content_data LONGTEXT,
+                    order_index INT,
+                    estimated_duration_minutes INT,
+                    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                    FOREIGN KEY (module_id) REFERENCES modules(id) ON DELETE CASCADE
+                )
+                """,
+                """
+                CREATE TABLE IF NOT EXISTS exercises (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    lesson_id INT,
+                    title VARCHAR(200) NOT NULL,
+                    description TEXT,
+                    difficulty VARCHAR(50) DEFAULT 'easy',
+                    starter_code LONGTEXT,
+                    expected_output TEXT,
+                    test_cases LONGTEXT,
+                    points INT DEFAULT 10,
+                    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                    FOREIGN KEY (lesson_id) REFERENCES lessons(id) ON DELETE CASCADE
+                )
+                """,
+                """
+                CREATE TABLE IF NOT EXISTS user_progress (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    user_id INT,
+                    lesson_id INT,
+                    exercise_id INT,
+                    completed BOOLEAN DEFAULT 0,
+                    score INT,
+                    attempts INT DEFAULT 0,
+                    last_attempt TIMESTAMP,
+                    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                    FOREIGN KEY (lesson_id) REFERENCES lessons(id) ON DELETE CASCADE,
+                    FOREIGN KEY (exercise_id) REFERENCES exercises(id) ON DELETE CASCADE
+                )
+                """
+            ]
+        else:
+            # Tablas para MySQL
+            tables = [
+                """
+                CREATE TABLE IF NOT EXISTS technologies (
+                    id INT AUTO_INCREMENT PRIMARY KEY,
+                    name VARCHAR(100) UNIQUE NOT NULL,
+                    description TEXT,
+                    difficulty_level VARCHAR(50) DEFAULT 'beginner',
+                    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+                ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
+                """,
+                """
+                CREATE TABLE IF NOT EXISTS modules (
+                    id INT AUTO_INCREMENT PRIMARY KEY,
+                    technology_id INT,
+                    title VARCHAR(200) NOT NULL,
+                    description TEXT,
+                    order_index INT,
+                    estimated_duration_minutes INT,
+                    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                    FOREIGN KEY (technology_id) REFERENCES technologies(id) ON DELETE CASCADE
+                ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
+                """,
+                """
+                CREATE TABLE IF NOT EXISTS lessons (
+                    id INT AUTO_INCREMENT PRIMARY KEY,
+                    module_id INT,
+                    title VARCHAR(200) NOT NULL,
+                    content_type VARCHAR(50) DEFAULT 'text',
+                    content_data LONGTEXT,
+                    order_index INT,
+                    estimated_duration_minutes INT,
+                    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                    FOREIGN KEY (module_id) REFERENCES modules(id) ON DELETE CASCADE
+                ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
+                """,
+                """
+                CREATE TABLE IF NOT EXISTS exercises (
+                    id INT AUTO_INCREMENT PRIMARY KEY,
+                    lesson_id INT,
+                    title VARCHAR(200) NOT NULL,
+                    description TEXT,
+                    difficulty VARCHAR(50) DEFAULT 'easy',
+                    starter_code LONGTEXT,
+                    expected_output TEXT,
+                    test_cases LONGTEXT,
+                    points INT DEFAULT 10,
+                    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                    FOREIGN KEY (lesson_id) REFERENCES lessons(id) ON DELETE CASCADE
+                ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
+                """,
+                """
+                CREATE TABLE IF NOT EXISTS user_progress (
+                    id INT AUTO_INCREMENT PRIMARY KEY,
+                    user_id INT,
+                    lesson_id INT,
+                    exercise_id INT,
+                    completed BOOLEAN DEFAULT FALSE,
+                    score INT,
+                    attempts INT DEFAULT 0,
+                    last_attempt TIMESTAMP,
+                    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                    FOREIGN KEY (lesson_id) REFERENCES lessons(id) ON DELETE CASCADE,
+                    FOREIGN KEY (exercise_id) REFERENCES exercises(id) ON DELETE CASCADE
+                ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
+                """
+            ]
         
         for table_sql in tables:
             self.cursor.execute(table_sql)
@@ -119,15 +215,28 @@ class CurriculumLoader:
     def insert_technology(self, name, description, difficulty_level='beginner'):
         """Insertar una tecnología (Python, JavaScript, Angular, etc.)"""
         try:
-            self.cursor.execute(
-                "INSERT INTO technologies (name, description, difficulty_level) VALUES (%s, %s, %s)"
-                " ON DUPLICATE KEY UPDATE name=name",
-                (name, description, difficulty_level)
-            )
+            if self.use_sqlite:
+                # SQLite usa INSERT OR REPLACE
+                self.cursor.execute(
+                    "INSERT OR REPLACE INTO technologies (name, description, difficulty_level) VALUES (?, ?, ?)",
+                    (name, description, difficulty_level)
+                )
+            else:
+                # MySQL usa ON DUPLICATE KEY UPDATE
+                self.cursor.execute(
+                    "INSERT INTO technologies (name, description, difficulty_level) VALUES (%s, %s, %s) "
+                    "ON DUPLICATE KEY UPDATE name=name",
+                    (name, description, difficulty_level)
+                )
+            
             self.conn.commit()
             
             # Obtener el ID
-            self.cursor.execute("SELECT id FROM technologies WHERE name = %s", (name,))
+            if self.use_sqlite:
+                self.cursor.execute("SELECT id FROM technologies WHERE name = ?", (name,))
+            else:
+                self.cursor.execute("SELECT id FROM technologies WHERE name = %s", (name,))
+            
             tech_id = self.cursor.fetchone()[0]
             print(f"✓ Tecnología insertada: {name} (ID: {tech_id})")
             return tech_id
@@ -138,12 +247,20 @@ class CurriculumLoader:
     def insert_module(self, technology_id, title, description, order_index, estimated_duration=30):
         """Insertar un módulo de aprendizaje"""
         try:
-            self.cursor.execute(
-                """INSERT INTO modules 
-                   (technology_id, title, description, order_index, estimated_duration_minutes) 
-                   VALUES (%s, %s, %s, %s, %s)""",
-                (technology_id, title, description, order_index, estimated_duration)
-            )
+            if self.use_sqlite:
+                self.cursor.execute(
+                    """INSERT INTO modules 
+                       (technology_id, title, description, order_index, estimated_duration_minutes) 
+                       VALUES (?, ?, ?, ?, ?)""",
+                    (technology_id, title, description, order_index, estimated_duration)
+                )
+            else:
+                self.cursor.execute(
+                    """INSERT INTO modules 
+                       (technology_id, title, description, order_index, estimated_duration_minutes) 
+                       VALUES (%s, %s, %s, %s, %s)""",
+                    (technology_id, title, description, order_index, estimated_duration)
+                )
             self.conn.commit()
             
             module_id = self.cursor.lastrowid
@@ -160,12 +277,20 @@ class CurriculumLoader:
             if isinstance(content_data, (dict, list)):
                 content_data = json.dumps(content_data, ensure_ascii=False)
             
-            self.cursor.execute(
-                """INSERT INTO lessons 
-                   (module_id, title, content_type, content_data, order_index, estimated_duration_minutes) 
-                   VALUES (%s, %s, %s, %s, %s, %s)""",
-                (module_id, title, content_type, content_data, order_index, estimated_duration)
-            )
+            if self.use_sqlite:
+                self.cursor.execute(
+                    """INSERT INTO lessons 
+                       (module_id, title, content_type, content_data, order_index, estimated_duration_minutes) 
+                       VALUES (?, ?, ?, ?, ?, ?)""",
+                    (module_id, title, content_type, content_data, order_index, estimated_duration)
+                )
+            else:
+                self.cursor.execute(
+                    """INSERT INTO lessons 
+                       (module_id, title, content_type, content_data, order_index, estimated_duration_minutes) 
+                       VALUES (%s, %s, %s, %s, %s, %s)""",
+                    (module_id, title, content_type, content_data, order_index, estimated_duration)
+                )
             self.conn.commit()
             
             lesson_id = self.cursor.lastrowid
@@ -184,14 +309,24 @@ class CurriculumLoader:
             if isinstance(test_cases, (list, dict)):
                 test_cases = json.dumps(test_cases, ensure_ascii=False)
             
-            self.cursor.execute(
-                """INSERT INTO exercises 
-                   (lesson_id, title, description, difficulty, starter_code, 
-                    expected_output, test_cases, points) 
-                   VALUES (%s, %s, %s, %s, %s, %s, %s, %s)""",
-                (lesson_id, title, description, difficulty, starter_code, 
-                 expected_output, test_cases, points)
-            )
+            if self.use_sqlite:
+                self.cursor.execute(
+                    """INSERT INTO exercises 
+                       (lesson_id, title, description, difficulty, starter_code, 
+                        expected_output, test_cases, points) 
+                       VALUES (?, ?, ?, ?, ?, ?, ?, ?)""",
+                    (lesson_id, title, description, difficulty, starter_code, 
+                     expected_output, test_cases, points)
+                )
+            else:
+                self.cursor.execute(
+                    """INSERT INTO exercises 
+                       (lesson_id, title, description, difficulty, starter_code, 
+                        expected_output, test_cases, points) 
+                       VALUES (%s, %s, %s, %s, %s, %s, %s, %s)""",
+                    (lesson_id, title, description, difficulty, starter_code, 
+                     expected_output, test_cases, points)
+                )
             self.conn.commit()
             
             exercise_id = self.cursor.lastrowid
