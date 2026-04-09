@@ -1,90 +1,112 @@
 """
-Módulo de auto-inserción de currículo en la base de datos.
+Módulo de auto-inserción de currículo en la base de datos MySQL.
 Permite cargar lecciones, ejercicios y rutas de aprendizaje automáticamente.
 """
 
-import sqlite3
+import mysql.connector
+from mysql.connector import Error
 from datetime import datetime
 import json
+import os
 
 class CurriculumLoader:
-    def __init__(self, db_path="learning_platform.db"):
-        self.db_path = db_path
+    def __init__(self, host='localhost', database='learning_platform', 
+                 user='root', password='password', port=3306):
+        self.host = host
+        self.database = database
+        self.user = user
+        self.password = password
+        self.port = port
         self.conn = None
         self.cursor = None
     
     def connect(self):
-        """Conectar a la base de datos SQLite"""
-        self.conn = sqlite3.connect(self.db_path)
-        self.cursor = self.conn.cursor()
-        print(f"✓ Conectado a base de datos: {self.db_path}")
+        """Conectar a la base de datos MySQL"""
+        try:
+            # Primero intentamos conectar sin especificar la base de datos
+            self.conn = mysql.connector.connect(
+                host=self.host,
+                user=self.user,
+                password=self.password,
+                port=self.port
+            )
+            self.cursor = self.conn.cursor()
+            
+            # Crear la base de datos si no existe
+            self.cursor.execute(f"CREATE DATABASE IF NOT EXISTS {self.database}")
+            self.cursor.execute(f"USE {self.database}")
+            
+            print(f"✓ Conectado a MySQL: {self.host}:{self.port}/{self.database}")
+        except Error as e:
+            print(f"✗ Error al conectar a MySQL: {e}")
+            raise
     
     def create_tables(self):
         """Crear tablas si no existen"""
         tables = [
             """
             CREATE TABLE IF NOT EXISTS technologies (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                name TEXT UNIQUE NOT NULL,
+                id INT AUTO_INCREMENT PRIMARY KEY,
+                name VARCHAR(100) UNIQUE NOT NULL,
                 description TEXT,
-                difficulty_level TEXT DEFAULT 'beginner',
+                difficulty_level VARCHAR(50) DEFAULT 'beginner',
                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-            )
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
             """,
             """
             CREATE TABLE IF NOT EXISTS modules (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                technology_id INTEGER,
-                title TEXT NOT NULL,
+                id INT AUTO_INCREMENT PRIMARY KEY,
+                technology_id INT,
+                title VARCHAR(200) NOT NULL,
                 description TEXT,
-                order_index INTEGER,
-                estimated_duration_minutes INTEGER,
+                order_index INT,
+                estimated_duration_minutes INT,
                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                FOREIGN KEY (technology_id) REFERENCES technologies(id)
-            )
+                FOREIGN KEY (technology_id) REFERENCES technologies(id) ON DELETE CASCADE
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
             """,
             """
             CREATE TABLE IF NOT EXISTS lessons (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                module_id INTEGER,
-                title TEXT NOT NULL,
-                content_type TEXT DEFAULT 'text',
-                content_data TEXT,
-                order_index INTEGER,
-                estimated_duration_minutes INTEGER,
+                id INT AUTO_INCREMENT PRIMARY KEY,
+                module_id INT,
+                title VARCHAR(200) NOT NULL,
+                content_type VARCHAR(50) DEFAULT 'text',
+                content_data LONGTEXT,
+                order_index INT,
+                estimated_duration_minutes INT,
                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                FOREIGN KEY (module_id) REFERENCES modules(id)
-            )
+                FOREIGN KEY (module_id) REFERENCES modules(id) ON DELETE CASCADE
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
             """,
             """
             CREATE TABLE IF NOT EXISTS exercises (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                lesson_id INTEGER,
-                title TEXT NOT NULL,
+                id INT AUTO_INCREMENT PRIMARY KEY,
+                lesson_id INT,
+                title VARCHAR(200) NOT NULL,
                 description TEXT,
-                difficulty TEXT DEFAULT 'easy',
-                starter_code TEXT,
+                difficulty VARCHAR(50) DEFAULT 'easy',
+                starter_code LONGTEXT,
                 expected_output TEXT,
-                test_cases TEXT,
-                points INTEGER DEFAULT 10,
+                test_cases LONGTEXT,
+                points INT DEFAULT 10,
                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                FOREIGN KEY (lesson_id) REFERENCES lessons(id)
-            )
+                FOREIGN KEY (lesson_id) REFERENCES lessons(id) ON DELETE CASCADE
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
             """,
             """
             CREATE TABLE IF NOT EXISTS user_progress (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                user_id INTEGER,
-                lesson_id INTEGER,
-                exercise_id INTEGER,
+                id INT AUTO_INCREMENT PRIMARY KEY,
+                user_id INT,
+                lesson_id INT,
+                exercise_id INT,
                 completed BOOLEAN DEFAULT FALSE,
-                score INTEGER,
-                attempts INTEGER DEFAULT 0,
+                score INT,
+                attempts INT DEFAULT 0,
                 last_attempt TIMESTAMP,
                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                FOREIGN KEY (lesson_id) REFERENCES lessons(id),
-                FOREIGN KEY (exercise_id) REFERENCES exercises(id)
-            )
+                FOREIGN KEY (lesson_id) REFERENCES lessons(id) ON DELETE CASCADE,
+                FOREIGN KEY (exercise_id) REFERENCES exercises(id) ON DELETE CASCADE
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
             """
         ]
         
@@ -98,13 +120,14 @@ class CurriculumLoader:
         """Insertar una tecnología (Python, JavaScript, Angular, etc.)"""
         try:
             self.cursor.execute(
-                "INSERT OR IGNORE INTO technologies (name, description, difficulty_level) VALUES (?, ?, ?)",
+                "INSERT INTO technologies (name, description, difficulty_level) VALUES (%s, %s, %s)"
+                " ON DUPLICATE KEY UPDATE name=name",
                 (name, description, difficulty_level)
             )
             self.conn.commit()
             
             # Obtener el ID
-            self.cursor.execute("SELECT id FROM technologies WHERE name = ?", (name,))
+            self.cursor.execute("SELECT id FROM technologies WHERE name = %s", (name,))
             tech_id = self.cursor.fetchone()[0]
             print(f"✓ Tecnología insertada: {name} (ID: {tech_id})")
             return tech_id
@@ -118,7 +141,7 @@ class CurriculumLoader:
             self.cursor.execute(
                 """INSERT INTO modules 
                    (technology_id, title, description, order_index, estimated_duration_minutes) 
-                   VALUES (?, ?, ?, ?, ?)""",
+                   VALUES (%s, %s, %s, %s, %s)""",
                 (technology_id, title, description, order_index, estimated_duration)
             )
             self.conn.commit()
@@ -140,7 +163,7 @@ class CurriculumLoader:
             self.cursor.execute(
                 """INSERT INTO lessons 
                    (module_id, title, content_type, content_data, order_index, estimated_duration_minutes) 
-                   VALUES (?, ?, ?, ?, ?, ?)""",
+                   VALUES (%s, %s, %s, %s, %s, %s)""",
                 (module_id, title, content_type, content_data, order_index, estimated_duration)
             )
             self.conn.commit()
@@ -165,7 +188,7 @@ class CurriculumLoader:
                 """INSERT INTO exercises 
                    (lesson_id, title, description, difficulty, starter_code, 
                     expected_output, test_cases, points) 
-                   VALUES (?, ?, ?, ?, ?, ?, ?, ?)""",
+                   VALUES (%s, %s, %s, %s, %s, %s, %s, %s)""",
                 (lesson_id, title, description, difficulty, starter_code, 
                  expected_output, test_cases, points)
             )
@@ -670,16 +693,23 @@ df.plot(
 
 
 # Función principal para ejecutar la carga automática
-def auto_insert_curriculum(db_path="learning_platform.db", include_js=False, include_angular=False):
+def auto_insert_curriculum(host='localhost', database='learning_platform', 
+                          user='root', password='password', port=3306,
+                          include_js=False, include_angular=False):
     """
-    Función principal para auto-insertar el currículo en la base de datos.
+    Función principal para auto-insertar el currículo en la base de datos MySQL.
     
     Args:
-        db_path: Ruta a la base de datos SQLite
+        host: Host de MySQL (default: localhost)
+        database: Nombre de la base de datos (default: learning_platform)
+        user: Usuario de MySQL (default: root)
+        password: Contraseña de MySQL (default: password)
+        port: Puerto de MySQL (default: 3306)
         include_js: Booleano para incluir JavaScript (default: False)
         include_angular: Booleano para incluir Angular (default: False)
     """
-    loader = CurriculumLoader(db_path)
+    loader = CurriculumLoader(host=host, database=database, user=user, 
+                             password=password, port=port)
     
     try:
         loader.connect()
@@ -699,5 +729,20 @@ def auto_insert_curriculum(db_path="learning_platform.db", include_js=False, inc
 
 
 if __name__ == "__main__":
-    # Ejecutar carga automática
-    auto_insert_curriculum()
+    # Ejecutar carga automática con configuración desde variables de entorno o valores por defecto
+    import os
+    
+    db_config = {
+        'host': os.getenv('MYSQL_HOST', 'localhost'),
+        'database': os.getenv('MYSQL_DATABASE', 'learning_platform'),
+        'user': os.getenv('MYSQL_USER', 'root'),
+        'password': os.getenv('MYSQL_PASSWORD', 'password'),
+        'port': int(os.getenv('MYSQL_PORT', 3306))
+    }
+    
+    print("🚀 Iniciando carga de currículo en MySQL...")
+    print(f"Configuración: {db_config['host']}:{db_config['port']}/{db_config['database']}")
+    print()
+    
+    auto_insert_curriculum(**db_config)
+
