@@ -1,0 +1,30 @@
+<?php
+/**
+ * Pandas Gamified LMS - Configuration File Template
+ * Copy this file to config.php and update with your database credentials
+ * Or use the auto-installer at install.php to generate it automatically
+ */
+
+// Database Configuration
+define('DB_HOST', 'localhost');
+define('DB_PORT', '3306');
+define('DB_NAME', 'pandas_lms');
+define('DB_USER', 'root');
+define('DB_PASS', '');
+define('DB_PREFIX', 'pandas_');
+
+// Application Settings
+define('SITE_NAME', 'Pandas Gamified LMS');
+define('SITE_URL', 'http://localhost/pandas-lms');
+define('DEBUG_MODE', true); // Set to false in production
+
+// Security
+define('SECRET_KEY', 'change-this-to-a-random-string-in-production');
+
+// Optional: Email Configuration (for password recovery, notifications)
+// define('SMTP_HOST', 'smtp.gmail.com');
+// define('SMTP_PORT', 587);
+// define('SMTP_USER', 'your-email@gmail.com');
+// define('SMTP_PASS', 'your-password');
+// define('SMTP_FROM', 'noreply@pandas-lms.com');
+// define('SMTP_FROM_NAME', 'Pandas LMS');
