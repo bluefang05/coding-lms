@@ -1,6 +1,55 @@
-Nothing should be ignored in this case, as the only change is adding a markdown file (pandas_curriculum_guide.md), which is a source/config file and not a build artifact, dependency, or temporary file.
+```
+# Dependencies
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.env
+.env.local
+.env.*
 
-Therefore, the output is empty:
+# Database
+*.db
+*.sqlite
+*.sqlite3
 
-```(empty)
+# Logs
+*.log
+
+# Temporary files
+*.tmp
+*.temp
+.DS_Store
+Thumbs.db
+
+# Coverage reports
+.coverage
+htmlcov/
+coverage/
+
+# Python virtual environments
+venv/
+.venv/
+env/
+ENV/
+
+# Build outputs
+build/
+dist/
+*.egg-info/
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
 ```

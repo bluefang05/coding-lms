@@ -1,0 +1,49 @@
+version: '3.8'
+
+services:
+  pandas-lms:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: base
+    container_name: pandas-gamified-lms
+    ports:
+      - "80:80"
+      - "8888:8888"
+    volumes:
+      - ./data:/app/data
+      - ./notebooks:/app/notebooks
+      - ./uploads:/app/uploads
+      - ./exports:/app/exports
+    environment:
+      - PYTHONUNBUFFERED=1
+      - JUPYTER_TOKEN=pandas123
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:80/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Optional: JupyterHub for multi-user setup
+  jupyterhub:
+    image: jupyterhub/jupyterhub:latest
+    container_name: pandas-jupyterhub
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./notebooks:/srv/jupyter/notebooks
+      - ./data/datasets:/srv/jupyter/datasets:ro
+    environment:
+      - JUPYTERHUB_API_TOKEN=secret-token
+    profiles:
+      - multiuser
+    depends_on:
+      - pandas-lms
+
+# Named volumes for persistence
+volumes:
+  notebooks:
+  datasets:
+  uploads:
+  exports:
