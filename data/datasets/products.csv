@@ -1,0 +1,51 @@
+product_id,product_name,category,subcategory,brand,cost,weight_kg,is_active
+1,Product 1,Electronics,Subcategory 1,Generic,15.78,10.6,True
+2,Product 2,Electronics,Subcategory 3,Brand C,97.58,6.17,True
+3,Product 3,Toys,Subcategory 5,Brand C,74.23,3.28,True
+4,Product 4,Electronics,Subcategory 4,Generic,38.39,11.98,True
+5,Product 5,Books,Subcategory 5,Brand B,72.22,2.16,True
+6,Product 6,Toys,Subcategory 1,Brand B,80.96,11.4,True
+7,Product 7,Clothing,Subcategory 1,Brand C,66.33,7.79,True
+8,Product 8,Home,Subcategory 5,Brand C,44.39,1.79,True
+9,Product 9,Electronics,Subcategory 3,Brand A,72.07,11.28,True
+10,Product 10,Home,Subcategory 1,Brand D,28.43,13.0,True
+11,Product 11,Home,Subcategory 1,Brand A,29.32,13.27,True
+12,Product 12,Electronics,Subcategory 2,Generic,7.28,3.87,True
+13,Product 13,Sports,Subcategory 5,Brand C,14.38,19.09,True
+14,Product 14,Electronics,Subcategory 5,Brand C,33.54,1.27,True
+15,Product 15,Home,Subcategory 3,Generic,65.88,17.62,True
+16,Product 16,Sports,Subcategory 3,Brand C,35.61,15.7,True
+17,Product 17,Toys,Subcategory 5,Brand C,22.62,5.12,True
+18,Product 18,Toys,Subcategory 3,Brand A,92.13,18.55,True
+19,Product 19,Books,Subcategory 4,Brand A,30.74,8.95,True
+20,Product 20,Home,Subcategory 3,Brand B,30.99,7.61,True
+21,Product 21,Books,Subcategory 3,Generic,95.67,17.89,True
+22,Product 22,Toys,Subcategory 2,Brand B,17.08,15.11,True
+23,Product 23,Home,Subcategory 5,Generic,75.99,15.51,True
+24,Product 24,Sports,Subcategory 3,Brand B,5.5,17.59,True
+25,Product 25,Home,Subcategory 3,Brand A,86.4,9.68,True
+26,Product 26,Books,Subcategory 4,Brand C,71.12,6.13,True
+27,Product 27,Electronics,Subcategory 1,Brand A,57.54,8.91,True
+28,Product 28,Home,Subcategory 1,Brand C,93.85,10.61,True
+29,Product 29,Home,Subcategory 1,Brand B,53.7,12.2,False
+30,Product 30,Electronics,Subcategory 2,Brand C,21.87,10.55,True
+31,Product 31,Sports,Subcategory 2,Brand D,56.0,19.56,False
+32,Product 32,Sports,Subcategory 1,Generic,32.88,12.08,True
+33,Product 33,Home,Subcategory 3,Brand B,6.01,16.72,True
+34,Product 34,Home,Subcategory 4,Brand C,88.96,1.8,False
+35,Product 35,Sports,Subcategory 3,Brand B,67.36,9.82,True
+36,Product 36,Toys,Subcategory 4,Brand A,94.51,18.02,True
+37,Product 37,Electronics,Subcategory 5,Brand A,75.77,18.35,True
+38,Product 38,Electronics,Subcategory 1,Generic,30.38,4.42,True
+39,Product 39,Sports,Subcategory 4,Brand A,39.38,8.07,True
+40,Product 40,Toys,Subcategory 3,Brand C,55.01,10.95,True
+41,Product 41,Toys,Subcategory 3,Brand B,56.95,12.87,True
+42,Product 42,Electronics,Subcategory 2,Brand C,29.57,9.53,True
+43,Product 43,Sports,Subcategory 2,Brand C,21.59,11.32,True
+44,Product 44,Toys,Subcategory 2,Brand A,39.27,11.83,True
+45,Product 45,Electronics,Subcategory 1,Generic,18.32,6.34,True
+46,Product 46,Clothing,Subcategory 1,Brand B,41.96,15.18,True
+47,Product 47,Toys,Subcategory 1,Brand B,49.83,17.16,True
+48,Product 48,Sports,Subcategory 1,Brand C,97.04,9.58,True
+49,Product 49,Electronics,Subcategory 5,Generic,18.83,17.28,True
+50,Product 50,Electronics,Subcategory 3,Brand B,53.85,13.25,True

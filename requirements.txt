@@ -1,0 +1,32 @@
+# Pandas Gamified LMS - Python Dependencies
+# Core Data Science Libraries
+pandas>=2.0.0
+numpy>=1.24.0
+matplotlib>=3.7.0
+seaborn>=0.12.0
+
+# Jupyter Environment
+jupyter>=1.0.0
+notebook>=7.0.0
+nbgrader>=0.9.0
+ipykernel>=6.0.0
+
+# Testing & Validation
+pytest>=7.0.0
+pandera>=0.15.0
+hypothesis>=6.0.0
+
+# Database
+sqlalchemy>=2.0.0
+pymysql>=1.0.0
+
+# Utilities
+requests>=2.31.0
+python-dateutil>=2.8.0
+pytz>=2023.0
+
+# Optional: Performance
+# polars>=0.18.0  # Uncomment for advanced performance comparisons
+
+# Optional: ML Integration
+# scikit-learn>=1.3.0  # Uncomment for Module 8 ML features

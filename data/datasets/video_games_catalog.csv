@@ -1,0 +1,201 @@
+id,title,genre,producer,platform,release_year,rating,reviews_count,price_usd,units_sold
+1,Game 1,RPG,Studio B,Nintendo Switch,2023,5.6,23694,67.03,3644878
+2,Game 2,Simulation,Studio C,Xbox,2023,8.1,36987,45.91,4819663
+3,Game 3,Puzzle,Studio A,PC,2016,4.1,878,19.35,105059
+4,Game 4,RPG,Studio D,Mobile,2021,3.4,27081,61.96,4621765
+5,Game 5,Strategy,Indie Dev,PC,2020,7.2,45344,52.47,2882998
+6,Game 6,Strategy,Indie Dev,PlayStation,2017,3.1,2256,68.18,3171399
+7,Game 7,Sports,Studio C,PC,2021,8.8,25078,22.73,1009280
+8,Game 8,Puzzle,Studio D,Nintendo Switch,2021,4.3,18527,20.99,3312121
+9,Game 9,Simulation,Indie Dev,Mobile,2016,5.1,46422,41.48,641346
+10,Game 10,Simulation,Studio B,PlayStation,2020,6.0,28496,27.46,4279005
+11,Game 11,Puzzle,Studio C,Nintendo Switch,2019,7.3,48663,18.36,3572028
+12,Game 12,Simulation,Studio A,Xbox,2016,5.0,9246,31.97,3597583
+13,Game 13,Adventure,Studio D,Xbox,2022,6.2,11216,57.1,2970581
+14,Game 14,Sports,Studio B,PlayStation,2015,4.4,34116,40.84,4388518
+15,Game 15,RPG,Studio C,PC,2015,7.1,29515,12.78,23989
+16,Game 16,Action,Studio D,Nintendo Switch,2020,7.3,13957,20.22,2404003
+17,Game 17,RPG,Indie Dev,PlayStation,2018,3.5,31796,66.92,632651
+18,Game 18,Strategy,Studio C,Mobile,2015,9.8,971,58.49,2211442
+19,Game 19,Sports,Studio C,Xbox,2021,5.1,19527,15.85,3219989
+20,Game 20,Puzzle,Studio C,Xbox,2023,7.8,16467,36.4,3720605
+21,Game 21,Action,Studio C,PC,2024,3.9,42311,39.7,4465768
+22,Game 22,Adventure,Studio C,Nintendo Switch,2022,3.2,29146,64.55,1047154
+23,Game 23,Sports,Studio C,Xbox,2023,4.8,8653,49.74,2738430
+24,Game 24,Action,Studio A,PC,2022,5.2,49055,41.19,2888994
+25,Game 25,RPG,Studio A,Nintendo Switch,2015,6.8,27430,21.08,492537
+26,Game 26,RPG,Studio D,Xbox,2018,9.8,1185,56.5,1742438
+27,Game 27,Adventure,Studio B,Xbox,2022,9.6,39170,63.68,1957401
+28,Game 28,Sports,Studio D,Mobile,2019,7.2,8147,65.3,1086495
+29,Game 29,Puzzle,Studio C,Xbox,2022,3.6,44358,21.75,3203517
+30,Game 30,Sports,Indie Dev,Mobile,2017,3.3,32538,29.51,334866
+31,Game 31,Puzzle,Studio D,PlayStation,2022,5.7,24642,26.27,2617406
+32,Game 32,Strategy,Studio A,PlayStation,2017,8.8,10018,31.4,2287624
+33,Game 33,Adventure,Indie Dev,Nintendo Switch,2015,5.0,44424,42.55,4865742
+34,Game 34,Simulation,Indie Dev,Mobile,2022,4.0,4662,58.12,2524291
+35,Game 35,Strategy,Indie Dev,PlayStation,2023,3.5,28423,69.2,4461328
+36,Game 36,Strategy,Studio B,Xbox,2019,8.4,7187,21.91,2025574
+37,Game 37,RPG,Studio A,PlayStation,2021,3.0,46431,58.92,1497710
+38,Game 38,Action,Studio B,Xbox,2015,7.9,43812,53.73,714166
+39,Game 39,Sports,Indie Dev,Xbox,2022,8.4,29144,14.43,4883045
+40,Game 40,Adventure,Studio D,Nintendo Switch,2020,5.5,35315,16.94,4677134
+41,Game 41,Strategy,Indie Dev,Mobile,2018,9.0,19793,47.39,905868
+42,Game 42,Puzzle,Indie Dev,Mobile,2023,5.3,44309,13.8,4308617
+43,Game 43,Puzzle,Studio D,Nintendo Switch,2022,5.2,254,29.5,3458892
+44,Game 44,Sports,Studio C,PlayStation,2024,8.1,41781,48.24,4624656
+45,Game 45,Puzzle,Studio D,PC,2023,9.2,2866,38.32,333248
+46,Game 46,Sports,Studio A,PC,2017,3.8,24410,52.78,972625
+47,Game 47,Sports,Studio D,Nintendo Switch,2016,8.3,30135,43.67,4173475
+48,Game 48,Action,Studio A,PlayStation,2017,8.4,10694,39.62,1669228
+49,Game 49,Sports,Studio A,Xbox,2022,6.7,27952,35.64,4718399
+50,Game 50,Strategy,Studio A,Xbox,2021,3.2,16917,16.46,3852023
+51,Game 51,Sports,Studio D,Mobile,2020,3.2,36229,48.17,21991
+52,Game 52,Action,Indie Dev,Nintendo Switch,2019,5.2,12192,40.5,461122
+53,Game 53,Strategy,Studio A,Mobile,2022,9.4,37951,24.95,3082983
+54,Game 54,Strategy,Studio D,PC,2015,5.9,7421,55.32,3105360
+55,Game 55,Adventure,Studio D,Mobile,2017,4.6,1727,14.61,4709698
+56,Game 56,Sports,Studio B,Xbox,2017,5.0,17836,19.66,3566908
+57,Game 57,Sports,Studio A,Xbox,2023,9.5,37085,58.48,1528151
+58,Game 58,Puzzle,Indie Dev,PlayStation,2019,7.4,5602,62.28,2295482
+59,Game 59,RPG,Studio C,Mobile,2023,8.6,32195,21.18,1936604
+60,Game 60,Action,Studio A,PC,2017,9.2,26696,42.35,279542
+61,Game 61,RPG,Studio B,PC,2022,8.7,35700,63.76,3306359
+62,Game 62,Action,Studio B,Mobile,2021,5.2,18046,16.59,3250895
+63,Game 63,Puzzle,Studio C,PC,2018,4.6,17969,35.62,1975790
+64,Game 64,Simulation,Studio C,Mobile,2022,8.7,21397,61.63,4841690
+65,Game 65,RPG,Indie Dev,Nintendo Switch,2015,3.0,33949,40.63,3805629
+66,Game 66,Puzzle,Studio D,Mobile,2016,5.9,31931,23.32,1930519
+67,Game 67,Strategy,Studio B,Xbox,2018,3.8,2178,30.25,3685076
+68,Game 68,Sports,Studio D,PlayStation,2018,9.6,15458,29.38,296503
+69,Game 69,Strategy,Studio A,PC,2018,6.6,27040,52.17,1351101
+70,Game 70,Sports,Indie Dev,PC,2020,5.5,22751,68.3,3028654
+71,Game 71,Strategy,Studio A,Xbox,2015,9.7,22551,25.1,152469
+72,Game 72,Sports,Studio D,Nintendo Switch,2019,6.5,17208,28.04,1256908
+73,Game 73,Simulation,Studio C,PC,2019,5.0,23813,12.2,3209848
+74,Game 74,RPG,Studio B,PC,2023,7.3,42387,40.15,1845074
+75,Game 75,Action,Studio B,Mobile,2020,3.4,14026,26.71,637914
+76,Game 76,Action,Studio B,PlayStation,2021,9.4,47437,24.36,2202081
+77,Game 77,Puzzle,Studio C,PC,2021,4.0,7079,39.36,3242515
+78,Game 78,Puzzle,Studio C,Xbox,2015,9.9,22140,24.51,2944429
+79,Game 79,Adventure,Studio D,Xbox,2019,7.7,23312,55.69,770648
+80,Game 80,Strategy,Indie Dev,PlayStation,2023,4.7,10611,53.68,1344156
+81,Game 81,RPG,Studio C,Nintendo Switch,2017,5.6,22113,47.93,3025130
+82,Game 82,Action,Studio C,PlayStation,2017,7.4,16133,42.14,4991727
+83,Game 83,RPG,Indie Dev,Mobile,2020,3.6,31746,60.11,629674
+84,Game 84,Sports,Indie Dev,PC,2017,5.2,49999,21.18,346026
+85,Game 85,Adventure,Studio A,PC,2020,3.3,1719,45.44,4088616
+86,Game 86,Action,Studio C,Mobile,2016,7.7,8424,10.99,1501100
+87,Game 87,Sports,Studio D,PC,2021,6.6,7587,23.58,810052
+88,Game 88,Simulation,Indie Dev,Nintendo Switch,2018,7.5,863,20.45,2836242
+89,Game 89,Strategy,Studio C,Nintendo Switch,2018,7.8,41076,33.19,467540
+90,Game 90,RPG,Studio C,Xbox,2023,9.6,18587,18.24,2701504
+91,Game 91,Sports,Studio A,PlayStation,2015,5.4,9595,16.8,4021984
+92,Game 92,Action,Studio B,PlayStation,2024,9.5,5120,62.63,547088
+93,Game 93,Simulation,Studio B,Mobile,2016,4.8,45702,49.59,3305096
+94,Game 94,Action,Indie Dev,Nintendo Switch,2018,8.7,44691,43.3,722138
+95,Game 95,Strategy,Studio A,PlayStation,2016,6.7,30399,24.5,4897347
+96,Game 96,Simulation,Studio A,PlayStation,2016,3.7,6823,63.82,3152893
+97,Game 97,Simulation,Studio A,PlayStation,2016,9.3,36110,47.98,2227211
+98,Game 98,Sports,Studio A,Mobile,2023,5.4,33521,30.94,1216881
+99,Game 99,Action,Studio B,PlayStation,2023,8.1,45031,63.82,4888582
+100,Game 100,Puzzle,Studio B,PlayStation,2015,9.2,16281,56.78,1576173
+101,Game 101,Puzzle,Studio D,Mobile,2015,7.5,28967,15.04,4382131
+102,Game 102,Simulation,Studio A,Nintendo Switch,2017,4.1,33238,63.9,3098381
+103,Game 103,Strategy,Indie Dev,Nintendo Switch,2019,7.2,37777,10.54,4994115
+104,Game 104,Strategy,Studio B,PlayStation,2016,3.7,620,49.8,3835593
+105,Game 105,RPG,Studio B,PC,2022,3.0,14806,19.64,3116085
+106,Game 106,Sports,Studio C,PlayStation,2015,6.8,10437,51.5,3605634
+107,Game 107,Strategy,Studio C,Nintendo Switch,2019,7.6,4867,23.45,4604207
+108,Game 108,Adventure,Studio A,Xbox,2015,8.0,25850,24.22,504275
+109,Game 109,Strategy,Studio C,Mobile,2021,5.3,22559,54.78,1792344
+110,Game 110,Action,Studio D,Mobile,2018,7.5,39917,60.94,3287673
+111,Game 111,RPG,Studio A,PC,2020,7.6,26418,44.09,163345
+112,Game 112,Sports,Indie Dev,PC,2022,3.7,1228,32.05,1859820
+113,Game 113,Puzzle,Studio A,Xbox,2016,4.9,34745,24.63,4646709
+114,Game 114,Puzzle,Indie Dev,PC,2015,9.8,10138,33.58,1515846
+115,Game 115,Action,Studio B,Xbox,2019,9.2,34936,47.86,1388634
+116,Game 116,Simulation,Studio D,Mobile,2022,8.6,27874,40.15,3395812
+117,Game 117,Sports,Studio B,Xbox,2015,7.0,31488,39.54,1481387
+118,Game 118,Action,Indie Dev,PlayStation,2022,4.4,3374,53.34,670933
+119,Game 119,RPG,Studio D,PC,2019,5.0,12958,11.45,1228849
+120,Game 120,Puzzle,Studio B,PC,2018,7.5,19349,20.62,2504140
+121,Game 121,Adventure,Studio D,Nintendo Switch,2019,9.6,1974,67.23,4727996
+122,Game 122,Puzzle,Studio B,PlayStation,2015,9.4,28950,32.2,4153837
+123,Game 123,Action,Indie Dev,Xbox,2023,3.1,36466,65.69,4285407
+124,Game 124,Sports,Studio C,PlayStation,2018,6.0,47342,67.99,622236
+125,Game 125,Sports,Studio B,Mobile,2018,9.7,35615,61.17,1886887
+126,Game 126,Simulation,Studio D,Nintendo Switch,2022,5.1,38338,33.1,2605805
+127,Game 127,Sports,Indie Dev,Xbox,2015,9.0,3014,29.01,4900180
+128,Game 128,Action,Indie Dev,Xbox,2015,4.2,47099,43.4,865303
+129,Game 129,Strategy,Studio C,PC,2015,9.6,38406,51.75,1532604
+130,Game 130,Simulation,Studio B,Nintendo Switch,2022,7.0,4452,15.82,780466
+131,Game 131,Puzzle,Indie Dev,PlayStation,2022,7.3,39501,69.39,25350
+132,Game 132,Sports,Studio B,PC,2023,4.0,23381,41.09,4742103
+133,Game 133,Adventure,Studio A,PC,2022,9.1,22547,54.44,4212109
+134,Game 134,RPG,Studio D,Nintendo Switch,2024,7.9,12605,52.14,3891688
+135,Game 135,Puzzle,Indie Dev,PC,2023,5.5,16428,27.61,4971579
+136,Game 136,RPG,Studio C,PC,2016,8.7,16788,58.6,3501786
+137,Game 137,Strategy,Indie Dev,Xbox,2021,9.1,19634,64.78,3829008
+138,Game 138,Adventure,Studio C,PC,2015,6.6,4472,40.08,4742286
+139,Game 139,Strategy,Studio B,PlayStation,2021,8.6,22546,48.99,3975011
+140,Game 140,Action,Studio B,PlayStation,2017,7.9,12616,57.74,2021822
+141,Game 141,Action,Indie Dev,Xbox,2021,9.2,13244,30.27,3201495
+142,Game 142,Simulation,Studio B,Nintendo Switch,2020,5.6,3968,15.63,3382382
+143,Game 143,Action,Studio D,Xbox,2018,7.0,29555,12.15,3470664
+144,Game 144,Strategy,Studio D,PC,2020,6.3,20204,42.55,4810622
+145,Game 145,Puzzle,Studio D,Mobile,2016,5.0,38412,45.44,4873868
+146,Game 146,Action,Studio C,Nintendo Switch,2023,3.2,48613,12.23,2439266
+147,Game 147,Sports,Studio D,PC,2023,8.8,13283,31.6,1543926
+148,Game 148,RPG,Studio D,PC,2018,3.9,38220,41.32,478359
+149,Game 149,Action,Studio D,Mobile,2022,8.4,26132,22.94,177696
+150,Game 150,Strategy,Studio D,Mobile,2020,7.4,41741,15.11,512872
+151,Game 151,RPG,Studio A,Mobile,2018,3.4,27777,41.87,4850039
+152,Game 152,Adventure,Studio C,PlayStation,2017,6.8,3548,48.24,3157466
+153,Game 153,Strategy,Studio D,Xbox,2018,8.1,20921,68.54,4692576
+154,Game 154,RPG,Studio B,PC,2020,6.6,17515,29.37,1426684
+155,Game 155,Action,Indie Dev,PC,2021,8.6,6510,26.24,4140376
+156,Game 156,Adventure,Studio A,PC,2020,6.1,40922,14.7,213522
+157,Game 157,Simulation,Studio D,Nintendo Switch,2019,3.2,1070,67.75,2885825
+158,Game 158,Simulation,Studio C,Nintendo Switch,2021,8.9,18710,51.75,2864317
+159,Game 159,Sports,Studio A,Xbox,2019,5.9,18614,20.39,2245589
+160,Game 160,Action,Indie Dev,PC,2018,4.1,47738,25.0,3744788
+161,Game 161,Strategy,Studio A,Xbox,2021,6.8,5127,52.87,1176942
+162,Game 162,Puzzle,Indie Dev,PlayStation,2015,7.6,28143,26.79,4655899
+163,Game 163,Adventure,Studio A,PC,2018,9.7,37862,54.26,406021
+164,Game 164,RPG,Studio D,Nintendo Switch,2024,6.9,44832,46.69,2720060
+165,Game 165,Adventure,Studio D,PC,2018,5.9,45163,24.85,2960929
+166,Game 166,Action,Studio B,Xbox,2015,5.5,24300,55.46,4534514
+167,Game 167,Action,Studio A,PC,2016,3.1,7829,16.95,863086
+168,Game 168,Simulation,Studio D,Mobile,2015,3.3,30247,12.43,1905432
+169,Game 169,Sports,Indie Dev,PC,2019,9.0,19128,52.21,1297992
+170,Game 170,RPG,Studio D,Xbox,2020,6.3,9168,15.86,129684
+171,Game 171,Strategy,Studio B,PC,2015,6.4,34854,38.4,2858549
+172,Game 172,Action,Studio D,PlayStation,2015,4.2,22733,36.02,592262
+173,Game 173,Sports,Studio A,Mobile,2016,5.8,17680,46.94,3610946
+174,Game 174,Adventure,Studio C,Mobile,2015,7.4,41451,12.71,23075
+175,Game 175,Adventure,Studio B,Xbox,2024,5.6,41777,47.54,3056334
+176,Game 176,Strategy,Studio C,Xbox,2017,6.5,9375,61.38,2251125
+177,Game 177,Puzzle,Studio D,PC,2022,7.6,16507,19.77,1095077
+178,Game 178,Adventure,Studio A,Nintendo Switch,2017,3.5,4641,48.54,2458666
+179,Game 179,Simulation,Studio D,PlayStation,2019,3.2,2852,45.14,1436308
+180,Game 180,Puzzle,Studio D,Xbox,2015,9.6,7794,44.52,3033113
+181,Game 181,Adventure,Studio B,PC,2017,5.7,15956,48.59,3172873
+182,Game 182,RPG,Studio D,Nintendo Switch,2018,6.2,17979,42.73,2093230
+183,Game 183,Sports,Studio D,Xbox,2023,9.6,23921,33.16,4148349
+184,Game 184,Action,Indie Dev,Xbox,2020,9.7,8290,64.31,2262678
+185,Game 185,Adventure,Indie Dev,Nintendo Switch,2024,4.4,37391,14.15,3237698
+186,Game 186,RPG,Studio B,Mobile,2022,3.7,30065,11.08,749415
+187,Game 187,Adventure,Studio C,PC,2015,3.7,15670,50.97,3240012
+188,Game 188,Puzzle,Studio B,Mobile,2017,3.5,6091,29.13,1514967
+189,Game 189,Sports,Studio D,Xbox,2017,8.9,36222,11.39,3957224
+190,Game 190,Sports,Studio B,Xbox,2017,8.7,1677,26.9,2708064
+191,Game 191,Sports,Indie Dev,PlayStation,2024,3.8,30538,51.79,3489625
+192,Game 192,Adventure,Indie Dev,PlayStation,2018,7.4,34173,62.64,3104070
+193,Game 193,Puzzle,Studio B,Xbox,2020,8.1,33164,58.2,3593584
+194,Game 194,Simulation,Studio B,Nintendo Switch,2017,5.0,5013,20.64,396992
+195,Game 195,Simulation,Studio D,Mobile,2021,8.3,20988,58.4,397443
+196,Game 196,Sports,Studio A,Xbox,2016,9.9,46720,34.75,472212
+197,Game 197,RPG,Studio D,Xbox,2018,5.6,47089,56.57,3796007
+198,Game 198,RPG,Studio A,Xbox,2018,5.4,17901,65.84,4469111
+199,Game 199,Strategy,Studio B,PlayStation,2017,9.0,26564,35.73,1790079
+200,Game 200,Strategy,Studio B,PlayStation,2015,8.3,41453,55.26,3384463
