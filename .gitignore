@@ -1,24 +1,6 @@
-```
-# Database files
-*.db
+Nothing should be ignored in this case, as the only change is adding a markdown file (pandas_curriculum_guide.md), which is a source/config file and not a build artifact, dependency, or temporary file.
 
-# Python
-__pycache__/
-*.pyc
-*.pyo
-*.pyd
-.Python
-env/
-venv/
-.venv/
-.ENV
-.python-version
+Therefore, the output is empty:
 
-# Logs
-*.log
-
-# Environment
-.env
-.env.local
-.env.*
+```(empty)
 ```
