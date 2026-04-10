@@ -1,1 +1,1 @@
-backend/seed_curriculum.py
+Nothing should be ignored in this case, as the changes only include source files (.md, .php) and no build artifacts, dependencies, or temporary files.
